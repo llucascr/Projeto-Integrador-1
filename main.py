@@ -1,5 +1,16 @@
 import os
+import oracledb
 os.system('cls')
+# ---------------------------- CONEXÃO AO BANCO DE DADOS -----------------------
+# Conecxão 
+connection = oracledb.connect(
+    user = "BD150224424",
+    password = 'Qwiji4',
+    dns = "BD-ACD/xe"
+)
+
+cursor = connection.cursor()
+
 # ---------------------------- CADASTRO DOS PRODUTOS ----------------------------
 print("="*47)
 print("\tSISTEMA DE CADASTRO DE PRODUTOS")
@@ -28,7 +39,7 @@ porc_ml = float(input("Rentabilidade (ML): "))
 # Preço de Venda
 pv = valor_cp / (1 - ((porc_cf + porc_cv + porc_iv + porc_ml) / 100))
 
-# ---------------------------- Calculos dos valores ----------------------------
+# ---------------------------- CALCULOS DOS VALORES -----------------------------
 # 'porc' = porcentagem
 # 'valor' = variaveis float
 porc_aquisicao = (valor_cp * 100) / pv                            # LINHA B
@@ -48,7 +59,7 @@ valor_rt = valor_rb - outros                                      # LINHA H
 # Porcentual de Rentabilidade
 porc_rt = porc_c - porc_outros
 
-# ---------------------------- Classificação de Lucro ----------------------------
+# ---------------------------- CLASSIFICAÇÃO DE LUCRO -----------------------------
 
 if porc_rt > 20:
     class_lucro = "Alto"
@@ -61,7 +72,41 @@ elif porc_rt == 0:
 else:
     class_lucro = "Prejuizo"
 
-# ---------------------------- Saida dos valores ----------------------------
+# ---------------------------- COMANDOS BANCO DE DADOS ---------------------------
+cursor.execute ("""
+            CREATE TABLE PRODUTOS1 (
+                COD_PROD INTEGER NOT NULL PRIMARY KEY,
+                NOME_PROD VARCHAR2(255) NOT NULL,
+                DESC_PROD VARCHAR2(255) NOT NULL,
+                CP NUMBER NOT NULL,
+                CF NUMBER NOT NULL,
+                CV NUMBER NOT NULL,
+                IV NUMBER NOT NULL,
+                ML NUMBER NOT NULL
+            )""")
+
+cursor.execute ("INSERT INTO PRODUTOS VALUES (1, 'Lapis', 'Preto', 1.00, 10, 5, 18, 25)")
+cursor.execute ("INSERT INTO PRODUTOS VALUES (2, 'Lapis', 'Amarelo', 1.20, 10, 5, 18, 25)")
+cursor.execute ("INSERT INTO PRODUTOS VALUES (3, 'Lapis', 'Chines', 0.20, 10, 5, 18, 0)")
+
+connection.commit() # Salva as informações
+cursor.close() # Encerra o cursor 
+connection.close() # Encerra o connection
+
+# ---------------------------- PROMPT DE COMANDOS ------------------------------
+# prompt = int(input("""
+#         [1] MOSTRAR ESTOQUE
+#         [2] ADICIONAR PRODUTO
+#         [3] ADICIONAR NOVA COLUNA
+#         [4] ALTERAR COLUNA
+#         [0] SAIR DO PROGRAMA
+#         """))
+
+# ---------------------------- ROTINA DE PRODUTOS -----------------------------
+# if prompt == 1:
+#     cursor.execute("SELECT * FROM PRODUTOS")
+
+# ---------------------------- SAIDA DE VALORES -------------------------------
 os.system('cls')
 print(f'''
 
