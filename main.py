@@ -1,15 +1,6 @@
 import os
-import oracledb
+import connection
 os.system('cls')
-# ---------------------------- CONEXÃO AO BANCO DE DADOS -----------------------
-# Conecxão 
-connection = oracledb.connect(
-    user = "BD150224424",
-    password = 'Qwiji4',
-    dns = "BD-ACD/xe"
-)
-
-cursor = connection.cursor()
 
 # ---------------------------- CADASTRO DOS PRODUTOS ----------------------------
 print("="*47)
@@ -36,6 +27,33 @@ porc_cv = float(input("Comissão de Vendas (CV): "))
 porc_iv = float(input("Impostos (IV): "))
 porc_ml = float(input("Rentabilidade (ML): "))
 
+# ---------------------------- MENU DE COMANDOS ------------------------------
+menu = int(input("""
+        [1] MOSTRAR ESTOQUE
+        [2] CRIAR TABELA   
+        [3] ADICIONAR PRODUTO
+        [4] ALTERAR COLUNA
+        [5] DELETAR TABELA
+        [6] DELETAR PRODUTO
+        [0] SAIR DO PROGRAMA
+        """))
+
+# ---------------------------- ROTINA DE PRODUTOS -----------------------------
+if menu == 1:
+    connection.mostrar_estoque()
+elif menu == 2:
+    connection.criar_tabela()
+elif menu == 3:
+    connection.add_produto(codigo_produto, nome_produto, descricao_produto)
+elif menu == 4:
+    nova_coluna = str(input("Nome e tipo da coluna: ")).upper
+    connection.add_coluna()
+elif menu == 5:
+    connection.deletar_tabela()
+elif menu == 6:
+    connection.deletar_produto()
+else:
+    print("Programa finalizado")
 # Preço de Venda
 pv = valor_cp / (1 - ((porc_cf + porc_cv + porc_iv + porc_ml) / 100))
 
@@ -72,39 +90,6 @@ elif porc_rt == 0:
 else:
     class_lucro = "Prejuizo"
 
-# ---------------------------- COMANDOS BANCO DE DADOS ---------------------------
-cursor.execute ("""
-            CREATE TABLE PRODUTOS1 (
-                COD_PROD INTEGER NOT NULL PRIMARY KEY,
-                NOME_PROD VARCHAR2(255) NOT NULL,
-                DESC_PROD VARCHAR2(255) NOT NULL,
-                CP NUMBER NOT NULL,
-                CF NUMBER NOT NULL,
-                CV NUMBER NOT NULL,
-                IV NUMBER NOT NULL,
-                ML NUMBER NOT NULL
-            )""")
-
-cursor.execute ("INSERT INTO PRODUTOS VALUES (1, 'Lapis', 'Preto', 1.00, 10, 5, 18, 25)")
-cursor.execute ("INSERT INTO PRODUTOS VALUES (2, 'Lapis', 'Amarelo', 1.20, 10, 5, 18, 25)")
-cursor.execute ("INSERT INTO PRODUTOS VALUES (3, 'Lapis', 'Chines', 0.20, 10, 5, 18, 0)")
-
-connection.commit() # Salva as informações
-cursor.close() # Encerra o cursor 
-connection.close() # Encerra o connection
-
-# ---------------------------- PROMPT DE COMANDOS ------------------------------
-# prompt = int(input("""
-#         [1] MOSTRAR ESTOQUE
-#         [2] ADICIONAR PRODUTO
-#         [3] ADICIONAR NOVA COLUNA
-#         [4] ALTERAR COLUNA
-#         [0] SAIR DO PROGRAMA
-#         """))
-
-# ---------------------------- ROTINA DE PRODUTOS -----------------------------
-# if prompt == 1:
-#     cursor.execute("SELECT * FROM PRODUTOS")
 
 # ---------------------------- SAIDA DE VALORES -------------------------------
 os.system('cls')
