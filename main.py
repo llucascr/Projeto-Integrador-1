@@ -22,8 +22,25 @@ while menu > 0:
 # ---------------------------- ROTINA DE PRODUTOS -----------------------------
     if menu == 1:
         conexao.mostrar_estoque()
+        print(f"""==========================================================================================================
+        DESCRIÇÃO               |\t\t\tVALOR\t\t\t \t\t%
+
+PREÇO DE VENDA                  |\t\t\tR${pv:.2f}\t\t\t \t\t100.00%
+CUSTO DE AQUISIÇÃO              |\t\t\tR${valor_cp:.2f}\t\t\t \t\t{porc_aquisicao:.2f}%
+RECEITA BRUTA                   |\t\t\tR${valor_rb:.2f}\t\t\t \t\t{porc_c:.2f}%
+CUSTO FIXO/ADMINISTRATIVO       |\t\t\tR${valor_cf:.2f}\t\t\t \t\t{porc_cf:.2f}%
+COMISSÃO DE VENDAS              |\t\t\tR${valor_cv:.2f}\t\t\t \t\t{porc_cv:.2f}%
+IMPOSTOS                        |\t\t\tR${valor_iv:.2f}\t\t\t \t\t{porc_iv:.2f}%
+OUTROS CUSTOS                   |\t\t\tR${outros:.2f}\t\t\t \t\t{porc_outros:.2f}%
+RENTABILIDADE                   |\t\t\tR${valor_rt:.2f}\t\t\t \t\t{porc_rt:.2f}%
+
+CLASSIFICAÇÃO DE LUCRO:        {class_lucro}
+==========================================================================================================
+
+        """)
     elif menu == 2:
         conexao.criar_tabela()
+        print("Tabela Criada com Sucesso")
     elif menu == 3:
         # ---------------------------- CADASTRO DOS PRODUTOS ----------------------------
         print("="*47)
@@ -74,7 +91,6 @@ while menu > 0:
         porc_rt = porc_c - porc_outros
 
         # ---------------------------- CLASSIFICAÇÃO DE LUCRO -----------------------------
-
         if porc_rt > 20:
             class_lucro = "Alto"
         elif 10 <= porc_rt <= 20:
@@ -85,8 +101,32 @@ while menu > 0:
             class_lucro = "Equilibrio"
         else:
             class_lucro = "Prejuizo"
+        # ---------------------------- SAIDA DE VALORES -------------------------------
+        os.system('cls')
+        print(f'''
 
-        conexao.add_produto()
+CÓDIGO PRODUTO: {codigo_produto}
+PRODUTO: {nome_produto}
+DESCRIÇÃO: {descricao_produto}
+
+==========================================================================================================
+        DESCRIÇÃO               |\t\t\tVALOR\t\t\t \t\t%
+
+PREÇO DE VENDA                  |\t\t\tR${pv:.2f}\t\t\t \t\t100.00%
+CUSTO DE AQUISIÇÃO              |\t\t\tR${valor_cp:.2f}\t\t\t \t\t{porc_aquisicao:.2f}%
+RECEITA BRUTA                   |\t\t\tR${valor_rb:.2f}\t\t\t \t\t{porc_c:.2f}%
+CUSTO FIXO/ADMINISTRATIVO       |\t\t\tR${valor_cf:.2f}\t\t\t \t\t{porc_cf:.2f}%
+COMISSÃO DE VENDAS              |\t\t\tR${valor_cv:.2f}\t\t\t \t\t{porc_cv:.2f}%
+IMPOSTOS                        |\t\t\tR${valor_iv:.2f}\t\t\t \t\t{porc_iv:.2f}%
+OUTROS CUSTOS                   |\t\t\tR${outros:.2f}\t\t\t \t\t{porc_outros:.2f}%
+RENTABILIDADE                   |\t\t\tR${valor_rt:.2f}\t\t\t \t\t{porc_rt:.2f}%
+
+CLASSIFICAÇÃO DE LUCRO:        {class_lucro}
+==========================================================================================================
+
+        ''')
+
+        # conexao.add_produto()
     elif menu == 4:
         nova_coluna = str(input("Nome e tipo da coluna: ")).upper
         conexao.add_coluna()
@@ -105,30 +145,6 @@ while menu > 0:
         [0] SAIR DO PROGRAMA
         """))
 
-# ---------------------------- SAIDA DE VALORES -------------------------------
-# os.system('cls')
-# print(f'''
-
-# CÓDIGO PRODUTO: {codigo_produto}
-# PRODUTO: {nome_produto}
-# DESCRIÇÃO: {descricao_produto}
-
-# ==========================================================================================================
-#         DESCRIÇÃO               |\t\t\tVALOR\t\t\t \t\t%
-
-# PREÇO DE VENDA                  |\t\t\tR${pv:.2f}\t\t\t \t\t100.00%
-# CUSTO DE AQUISIÇÃO              |\t\t\tR${valor_cp:.2f}\t\t\t \t\t{porc_aquisicao:.2f}%
-# RECEITA BRUTA                   |\t\t\tR${valor_rb:.2f}\t\t\t \t\t{porc_c:.2f}%
-# CUSTO FIXO/ADMINISTRATIVO       |\t\t\tR${valor_cf:.2f}\t\t\t \t\t{porc_cf:.2f}%
-# COMISSÃO DE VENDAS              |\t\t\tR${valor_cv:.2f}\t\t\t \t\t{porc_cv:.2f}%
-# IMPOSTOS                        |\t\t\tR${valor_iv:.2f}\t\t\t \t\t{porc_iv:.2f}%
-# OUTROS CUSTOS                   |\t\t\tR${outros:.2f}\t\t\t \t\t{porc_outros:.2f}%
-# RENTABILIDADE                   |\t\t\tR${valor_rt:.2f}\t\t\t \t\t{porc_rt:.2f}%
-
-# CLASSIFICAÇÃO DE LUCRO:        {class_lucro}
-# ==========================================================================================================
-
-#         ''')
 connection.commit() # Salva as informações
 cursor.close() # Encerra o cursor 
 connection.close()

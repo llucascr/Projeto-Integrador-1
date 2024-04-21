@@ -1,6 +1,5 @@
 # ---------------------------- CONEXÃO AO BANCO DE DADOS -----------------------
 import oracledb
-import main
 # Conexão 
 connection = oracledb.connect(
     user = "BD150224424",
@@ -12,10 +11,13 @@ cursor = connection.cursor()
 # ---------------------------- COMANDOS BANCO DE DADOS ---------------------------
 # [1] MOSTRAR ESTOQUE
 def mostrar_estoque():
-    cursor.execute("SELECT * FROM PRODUTOS")
-    estoque = cursor.fetchall() # NÃO USAR FATCHALL
-    for row in estoque:
-        print(row)
+    for row in cursor.execute("SELECT * FROM PRODUTOS"):
+                print(f'''
+                      
+CÓDIGO PRODUTO: {row[0]}
+PRODUTO: {row[1]}
+DESCRIÇÃO: {row[2]}
+''')
 
 # [2] CRIAR TABELA  
 def criar_tabela():
@@ -32,7 +34,7 @@ def criar_tabela():
 
 # [3] ADICIONAR PRODUTO
 def add_produto():
-    cursor.execute(f"INSERT INTO PRODUTOS VALUES ({main.codigo_produto}, {main.nome_produto}, {main.descricao_produto})")
+    cursor.execute(f"INSERT INTO PRODUTOS VALUES ()")
 
 # [4] ALTERAR COLUNA
 # def add_coluna():
