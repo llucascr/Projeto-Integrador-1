@@ -15,59 +15,81 @@ def mostrar_estoque():
         estoque = row
         print(estoque)
      # Preço de Venda
-        pv = estoque[3] / (1 - ((estoque[4] + estoque[5] + estoque[6] + estoque[7]) / 100))
+        # pv = estoque[3] / (1 - ((estoque[4] + estoque[5] + estoque[6] + estoque[7]) / 100))
 
-        # ---------------------------- CALCULOS DOS VALORES -----------------------------
-        # 'porc' = porcentagem
-        # 'valor' = variaveis float
-        porc_aquisicao = (estoque[3] * 100) / pv                            # LINHA B
+        # # ---------------------------- CALCULOS DOS VALORES -----------------------------
+        # # 'porc' = porcentagem
+        # # 'valor' = variaveis float
+        # porc_aquisicao = (estoque[3] * 100) / pv                            # LINHA B
 
-        receita_bruta = pv - estoque[3]                                     # LINHA C
-        valor_rb = pv - estoque[3]
-        porc_c = 100 - porc_aquisicao
+        # receita_bruta = pv - estoque[3]                                     # LINHA C
+        # valor_rb = pv - estoque[3]
+        # porc_c = 100 - porc_aquisicao
 
-        valor_cf = (pv * estoque[4]) / 100       #cf                            # LINHA D
-        valor_cv = (pv * estoque[5]) / 100       #cv                            # LINHA E
-        valor_iv = (pv * estoque[6]) / 100       #iv                            # LINHA F
+        # valor_cf = (pv * estoque[4]) / 100       #cf                            # LINHA D
+        # valor_cv = (pv * estoque[5]) / 100       #cv                            # LINHA E
+        # valor_iv = (pv * estoque[6]) / 100       #iv                            # LINHA F
 
-        outros = valor_cf + valor_cv + valor_iv                           # LINHA G
-        porc_outros = estoque[4] + estoque[5] + estoque[6]
+        # outros = valor_cf + valor_cv + valor_iv                           # LINHA G
+        # porc_outros = estoque[4] + estoque[5] + estoque[6]
         
-        valor_rt = valor_rb - outros                                      # LINHA H
-        # Porcentual de Rentabilidade
-        porc_rt = porc_c - porc_outros
-        # ---------------------------- CLASSIFICAÇÃO DE LUCRO -----------------------------
-        if porc_rt > 20:
-            class_lucro = "Alto"
-        elif 10 <= porc_rt <= 20:
-            class_lucro = "Médio"
-        elif 0 < porc_rt < 10:
-            class_lucro = "Baixo"
-        elif porc_rt == 0:
-            class_lucro = "Equilibrio"
-        else:
-            class_lucro = "Prejuizo"
+        # valor_rt = valor_rb - outros                                      # LINHA H
+        # # Porcentual de Rentabilidade
+        # porc_rt = porc_c - porc_outros
+        #------------------------------------------------------------------------------------------------------------------------#
+                                              #CALCULOS DO PRODUTO
+        cod_prod = estoque[0]
+        nome_prod = estoque[1]
+        desc_prod = estoque[2]
+        CP = estoque[3]
+        CF = estoque[4]
+        CV = estoque[5]
+        IV = estoque[6]
+        ML = estoque[7]
+        
+        PV = CP/(1-((CF+CV+IV+ML)/100)) #CALCULAR O VALOR PARA VENDA DO PRODUTO
 
+        OC    = CF+CV+IV      #OUTROS CUSTOS '%'
+        CFnum = (PV*CF)/100   #CUSTO FIXO 'VALOR'
+        CVnum = (PV*CV)/100   #COMISSAO 'VALOR'
+        IVnum = (PV*IV)/100   #IMPOSTOS 'VALOR'
+        OCnum = (PV*OC)/100   #OUTROS CUSTOS 'VALOR'
+        RB    = PV-CP         #RECEITA BRUTA 'VALOR'
+        Rnum  = RB-OCnum      #RENTABILIDADE 'VALOR'
+        Rpor  = (Rnum*100)/PV #RENTABILIDADE '%'
+        CPpor = (CP*100)/PV   #CUSTO PRODUTO '%'
+        RBpor = 100-CPpor     #RECEITA BRUTA '%'
+#------------------------------------------------------------------------------------------------------------------------#
+        if Rpor > 20:
+            ClassLucro = 'LUCRO ALTO'
+        elif 10 <= Rpor <= 20:
+            ClassLucro = 'LUCRO MÉDIO'
+        elif 0 <= Rpor <= 10:
+            ClassLucro = 'LUCRO BAIXO'
+        elif Rpor == 0:
+            ClassLucro = 'EQUILÍBRIO'
+        elif Rpor < 0:
+            ClassLucro = 'PREJUÍZO'
+#------------------------------------------------------------------------------------------------------------------------#
+                                        #IMPRIMINDO TABELA COM O CALCULO DO PRODUTO            
         print(f'''
-
-CÓDIGO PRODUTO: {estoque[0]}
-PRODUTO: {estoque[1]}
-DESCRIÇÃO: {estoque[2]}
-
-==========================================================================================================
-        DESCRIÇÃO               |\t\t\tVALOR\t\t\t \t\t%
-
-PREÇO DE VENDA                  |\t\t\tR${pv:.2f}\t\t\t \t\t100.00%
-CUSTO DE AQUISIÇÃO              |\t\t\tR${estoque[3]:.2f}\t\t\t \t\t{porc_aquisicao:.2f}%
-RECEITA BRUTA                   |\t\t\tR${valor_rb:.2f}\t\t\t \t\t{porc_c:.2f}%
-CUSTO FIXO/ADMINISTRATIVO       |\t\t\tR${valor_cf:.2f}\t\t\t \t\t{estoque[4]:.2f}%
-COMISSÃO DE VENDAS              |\t\t\tR${valor_cv:.2f}\t\t\t \t\t{estoque[5]:.2f}%
-IMPOSTOS                        |\t\t\tR${valor_iv:.2f}\t\t\t \t\t{estoque[6]:.2f}%
-OUTROS CUSTOS                   |\t\t\tR${outros:.2f}\t\t\t \t\t{porc_outros:.2f}%
-RENTABILIDADE                   |\t\t\tR${valor_rt:.2f}\t\t\t \t\t{porc_rt:.2f}%
-
-CLASSIFICAÇÃO DE LUCRO:        {class_lucro}
-==========================================================================================================
+                 ESTOQUE DE PRODUTOS!!!
+=================================================================
+¦ CÓDIGO PRODUTO: {cod_prod}    \t\t¦\t\t¦\t\t¦
+¦ PRODUTO: {nome_prod}    \t\t¦\tVALOR\t¦\t%\t¦
+¦ DESCRIÇÃO: {desc_prod}    \t\t¦\t\t¦\t\t¦           
+=================================================================
+¦ A. Preço de Venda             ¦\tR%{PV:.2f}\t¦\t100.00%\t¦
+¦ B. Custo de Aquisição         ¦\tR%{CP:.2f}\t¦\t{CPpor:.2f}%\t¦    
+¦ C. Receita Bruta(A-B)         ¦\tR%{RB:.2f}\t¦\t{RBpor:.2f}%\t¦  
+¦ D. Custo Fixo/Administrativo  ¦\tR%{CFnum:.2f}\t¦\t{CF:.2f}%\t¦                     
+¦ E. Comissão de Vendas         ¦\tR%{CVnum:.2f}\t¦\t{CV:.2f}%\t¦
+¦ F. Impostos                   ¦\tR%{IVnum:.2f}\t¦\t{IV:.2f}%\t¦
+¦ G. Outros Custos(D+E+F)       ¦\tR%{OCnum:.2f}\t¦\t{OC:.2f}%\t¦
+¦ H. Rentabilidade(C-G)         ¦\tR%{Rnum:.2f}\t¦\t{Rpor:.2f}%\t¦
+=================================================================
+¦CLASSIFICAÇÃO DE LUCRO:        ¦\t{ClassLucro}\t\t¦
+=================================================================
 
         ''')
 
@@ -89,17 +111,14 @@ def criar_tabela():
 def add_produto():
     cursor.execute(f"INSERT INTO PRODUTOS VALUES ()")
 
-# [4] ALTERAR COLUNA
-# def add_coluna():
-#     cursor.execute(f"ALTER TABLE PRODUTOS ADD COLUMN {main.nova_coluna}")
 
-# [5] DELETAR TABELA
-# def deletar_tabela():
-#     cursor.execute(f"DROP TABLE PRODUTOS")
+# [4] DELETAR TABELA
+def deletar_tabela():
+    cursor.execute(f"DROP TABLE PRODUTOS")
 
-# [6] DELETAR PRODUTO
-# def deletar_produto():
-#     cursor.execute(f"DELETE FROM PRODUTOS WHERE NOME_PROD = '{main.nome_produto}'")
+# [5] DELETAR PRODUTO
+def deletar_produto():
+    cursor.execute("DELETE FROM PRODUTOS")
 
 # cursor.execute ("INSERT INTO PRODUTOS VALUES (1, 'Lapis', 'Preto', 1.00, 10, 5, 18, 25)")
 # cursor.execute ("INSERT INTO PRODUTOS VALUES (2, 'Lapis', 'Amarelo', 1.20, 10, 5, 18, 25)")
