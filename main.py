@@ -23,14 +23,19 @@ OPÇÕES:
 [0].SAIR
 =================================================================
                     OPÇÃO: """))
+os.system('cls')
+
 while menu != 0:
 # ---------------------------- ROTINA DE PRODUTOS -----------------------------
-    if menu == 1:
+    if menu == 1: #MOSTRAR ESTOQUE
+        print("""
+                        ESTOQUE COMPLETO!!!""")
         conexao.mostrar_estoque()
-    elif menu == 2:
+    elif menu == 2: #CRIAR TABELA
         conexao.criar_tabela()
-        print("Tabela Criada com Sucesso")
-    elif menu == 3:
+        print("""
+                    TABELA CRIADA COM SUCESSO!!!""")
+    elif menu == 3: #CADASTRAR PRODUTO
         # ---------------------------- CADASTRO DOS PRODUTOS ----------------------------
         cod_prod = int(input('Código do Produto: '))       #CODIGO DO PRODUTO
         nome_prod = str(input('Nome Produto: '))              #NOME DO PRODUTO
@@ -41,11 +46,17 @@ while menu != 0:
         CF = float(input('Custo Fixo/Administrativo(%): '))    #CUSTO FIXO (ESPAÇO FÍSICO, DESPESAS, FUNCIONÁRIOS...)
         CV = float(input('Comissão de Vendas(%): '))          #COMISSÃO SOBRE A VENDA DO PRODUTO
         IV = float(input('Impostos(%): '))                    #IMPOSTOS SOBRE A VENDA DO PRODUTO
+
         os.system('cls')
-        # conexao.add_produto()
-    elif menu == 4:
+
+        cursor.execute("INSERT INTO produtos VALUES (:1, :2, :3, :4, :5, :6, :7, :8)",(cod_prod, nome_prod, desc_prod, CP, CF, CV, IV, ML))
+        connection.commit()
+        print("""
+                    PRODUTO CADASTRADO COM SUCESSO!!!""")
+        #conexao.add_produto()
+    elif menu == 4: #DELETAR TABELA
         conexao.deletar_tabela()
-    elif menu == 5:
+    elif menu == 5: #DELETAR PRODUTO
         conexao.deletar_produto()
     
     menu = int(input("""
@@ -54,13 +65,17 @@ while menu != 0:
                   SISTEMA DE CADASTRO DE PRODUTO!!!
 =================================================================
 OPÇÕES:
-[1].CADASTRAR PRODUTO
-[2].ALTERAR PRODUTO
-[3].EXCLUIR PRODUTO/ESTOQUE
-[4].MOSTRAR PRODUTO/ESTOQUE
+[1].MOSTRAR PRODUTO/ESTOQUE
+[2].CRIAR TABELA
+[3].CADASTRAR PRODUTO
+[4].DELETAR TABELA
+[5].DELETAR PRODUTOS
 [0].SAIR
 =================================================================
                     OPÇÃO: """))
+    
+    os.system('cls')
+    # ---------------------------- FIM ROTINA DE PRODUTOS -----------------------------
 connection.commit()
 cursor.close()
 connection.close()
