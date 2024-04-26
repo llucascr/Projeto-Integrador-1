@@ -55,17 +55,17 @@ def mostrar_estoque():
                  
 =================================================================
 ¦ CÓDIGO: {cod_prod}\t\t\t\t\t\t
-¦ PRODUTO: {nome_prod}\t\t\tVALOR\t¦\t%\t
+¦ PRODUTO: {nome_prod}\t\t\tVALOR\t\t%\t
 ¦ DESCRIÇÃO: {desc_prod}\t\t\t\t\t\t           
 =================================================================
 ¦ A. Preço de Venda\t\t¦ R${PV:.2f}\t¦  100.00%\t¦
-¦ B. Custo de Aquisição\t\t¦ R${CP:.2f}\t¦  {CPpor:.2f}%\t¦    
-¦ C. Receita Bruta(A-B)\t\t¦ R${RBnum:.2f}\t¦  {RBpor:.2f}%\t¦  
-¦ D. Custo Fixo/Administrativo\t¦ R${CFnum:.2f}\t¦  {CF:.2f}%\t¦                     
-¦ E. Comissão de Vendas\t\t¦ R${CVnum:.2f}\t¦  {CV:.2f}%\t¦
-¦ F. Impostos\t\t\t¦ R${IVnum:.2f}\t¦  {IV:.2f}%\t¦
-¦ G. Outros Custos(D+E+F)\t¦ R${OCnum:.2f}\t¦  {OCpor:.2f}%\t¦
-¦ H. Rentabilidade(C-G)\t\t¦ R${Rnum:.2f}\t¦  {Rpor:.2f}%\t¦
+¦ B. Custo de Aquisição\t\t¦ R${CP:.2f}\t¦  {CPpor:.0f}%\t\t¦    
+¦ C. Receita Bruta(A-B)\t\t¦ R${RBnum:.2f}\t¦  {RBpor:.0f}%\t\t¦  
+¦ D. Custo Fixo/Administrativo\t¦ R${CFnum:.2f}\t¦  {CF:.0f}%\t\t¦                     
+¦ E. Comissão de Vendas\t\t¦ R${CVnum:.2f}\t¦  {CV:.0f}%\t\t¦
+¦ F. Impostos\t\t\t¦ R${IVnum:.2f}\t¦  {IV:.0f}%\t\t¦
+¦ G. Outros Custos(D+E+F)\t¦ R${OCnum:.2f}\t¦  {OCpor:.0f}%\t\t¦
+¦ H. Rentabilidade(C-G)\t\t¦ R${Rnum:.2f}\t¦  {Rpor:.0f}%\t\t¦
 =================================================================
 ¦ CLASSIFICAÇÃO DE LUCRO:\t {ClassLucro}\t\t\t¦
 =================================================================
