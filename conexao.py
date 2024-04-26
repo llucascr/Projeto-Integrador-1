@@ -58,7 +58,7 @@ def mostrar_estoque():
 ¦ PRODUTO: {nome_prod}\t\t\tVALOR\t\t%\t
 ¦ DESCRIÇÃO: {desc_prod}\t\t\t\t\t\t           
 =================================================================
-¦ A. Preço de Venda\t\t¦ R${PV:.2f}\t¦  100.00%\t¦
+¦ A. Preço de Venda\t\t¦ R${PV:.2f}\t¦  100%\t\t¦
 ¦ B. Custo de Aquisição\t\t¦ R${CP:.2f}\t¦  {CPpor:.0f}%\t\t¦    
 ¦ C. Receita Bruta(A-B)\t\t¦ R${RBnum:.2f}\t¦  {RBpor:.0f}%\t\t¦  
 ¦ D. Custo Fixo/Administrativo\t¦ R${CFnum:.2f}\t¦  {CF:.0f}%\t\t¦                     
