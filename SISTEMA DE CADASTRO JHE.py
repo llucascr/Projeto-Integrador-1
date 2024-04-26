@@ -6,7 +6,7 @@ connection = oracledb.connect(user = "BD150224212", password = "Dsiow3", dsn = "
 cursor = connection.cursor()
 #------------------------------------------------------------------------------------------------#
                                           #FUNÇÕES
-def CALCULO_TABELA():
+def CALCULO_TABELA(): #CALCULA OS VALORES DA TABELA E IMPRIME
 
     PV = CP/(1-((CF+CV+IV+ML)/100)) #CALCULAR O VALOR PARA VENDA DO PRODUTO
 
@@ -34,27 +34,32 @@ def CALCULO_TABELA():
 
     print(f'''
                  
+
 =================================================================
-¦ CÓDIGO PRODUTO: {cod_prod}\t\t¦\t\t¦\t\t¦
-¦ PRODUTO: {nome_prod}\t\t¦\tVALOR\t¦\t%\t¦
-¦ DESCRIÇÃO: {desc_prod}\t\t¦\t\t¦\t\t¦           
+¦ CÓDIGO: {cod_prod}\t\t\t\t\t\t
+¦ PRODUTO: {nome_prod}\t\t\tVALOR\t¦\t%\t
+¦ DESCRIÇÃO: {desc_prod}\t\t\t\t\t\t           
 =================================================================
-¦ A. Preço de Venda             ¦\tR%{PV:.2f}\t¦\t100.00%\t¦
-¦ B. Custo de Aquisição         ¦\tR%{CP:.2f}\t¦\t{CPpor:.2f}%\t¦    
-¦ C. Receita Bruta(A-B)         ¦\tR%{RBnum:.2f}\t¦\t{RBpor:.2f}%\t¦  
-¦ D. Custo Fixo/Administrativo  ¦\tR%{CFnum:.2f}\t¦\t{CF:.2f}%\t¦                     
-¦ E. Comissão de Vendas         ¦\tR%{CVnum:.2f}\t¦\t{CV:.2f}%\t¦
-¦ F. Impostos                   ¦\tR%{IVnum:.2f}\t¦\t{IV:.2f}%\t¦
-¦ G. Outros Custos(D+E+F)       ¦\tR%{OCnum:.2f}\t¦\t{OCpor:.2f}%\t¦
-¦ H. Rentabilidade(C-G)         ¦\tR%{Rnum:.2f}\t¦\t{Rpor:.2f}%\t¦
+¦ A. Preço de Venda\t\t¦ R${PV:.2f}\t¦  100.00%\t¦
+¦ B. Custo de Aquisição\t\t¦ R${CP:.2f}\t¦  {CPpor:.2f}%\t¦    
+¦ C. Receita Bruta(A-B)\t\t¦ R${RBnum:.2f}\t¦  {RBpor:.2f}%\t¦  
+¦ D. Custo Fixo/Administrativo\t¦ R${CFnum:.2f}\t¦  {CF:.2f}%\t¦                     
+¦ E. Comissão de Vendas\t\t¦ R${CVnum:.2f}\t¦  {CV:.2f}%\t¦
+¦ F. Impostos\t\t\t¦ R${IVnum:.2f}\t¦  {IV:.2f}%\t¦
+¦ G. Outros Custos(D+E+F)\t¦ R${OCnum:.2f}\t¦  {OCpor:.2f}%\t¦
+¦ H. Rentabilidade(C-G)\t\t¦ R${Rnum:.2f}\t¦  {Rpor:.2f}%\t¦
 =================================================================
-¦ CLASSIFICAÇÃO DE LUCRO:       ¦\t{ClassLucro}\t\t¦
+¦ CLASSIFICAÇÃO DE LUCRO:\t {ClassLucro}\t\t\t¦
 =================================================================
+
+
 
         ''')
     connection.commit()
+
 #------------------------------------------------------------------------------------------------#
                                 #MENU PARA ENTRAR NO LOOP
+os.system('cls')
 MENU = int(input("""
 =================================================================
 ¦                          BEM VINDO AO                         ¦
@@ -98,25 +103,25 @@ while (MENU != 0):
     elif(MENU==2): #ALTERAR PRODUTO
         print("AINDA TRABALHANDO NISSO :(")
     elif(MENU==3): #APAGAR PRODUTO/ESTOQUE
-        ex_prod_est=int(input("APAGAR [1]ESTOQUE OU [2]PRODUTO: "))
+        opcao_apagar=int(input("APAGAR [1]ESTOQUE OU [2]PRODUTO: "))
 
-        if(ex_prod_est==1):
+        if(opcao_apagar==1):
             cursor.execute("DELETE FROM estoque")
             connection.commit()
             print('''
                   ESTOQUE APAGADO COM SUCESSO!!!''')
             
-        elif(ex_prod_est==2):
-            info_cod_e=int(input("Digite o codigo do produto que deseja apagar: "))
+        elif(opcao_apagar==2):
+            cod_apagar=int(input("Digite o codigo do produto que deseja apagar: "))
           
-            cursor.execute("DELETE FROM estoque WHERE cod_prodT = :1",(info_cod_e,))
+            cursor.execute("DELETE FROM estoque WHERE cod_prodT = :1",(cod_apagar,))
             connection.commit()
             print('''
                   PRODUTO APAGADO COM SUCESSO!!!''')
     elif(MENU==4): #MOSTRAR PRODUTO/ESTOQUE
-        mos_prod_est=int(input("MOSTRAR [1]ESTOQUE OU [2]PRODUTO: "))
+        opcao_mostrar=int(input("MOSTRAR [1]ESTOQUE OU [2]PRODUTO: "))
 
-        if(mos_prod_est==1):
+        if(opcao_mostrar==1):
             cursor.execute("SELECT * FROM estoque")
             for row in cursor:
 
@@ -131,10 +136,10 @@ while (MENU != 0):
 
                 CALCULO_TABELA()
 
-        elif(mos_prod_est==2):
-            info_cod_m=int(input("Digite o codigo do produto que deseja mostrar: "))
+        elif(opcao_mostrar==2):
+            cod_mostrar=int(input("Digite o codigo do produto que deseja mostrar: "))
           
-            cursor.execute("SELECT * FROM estoque WHERE cod_prodT = :1", (info_cod_m,))
+            cursor.execute("SELECT * FROM estoque WHERE cod_prodT = :1", (cod_mostrar,))
             for row in cursor:
 
                 cod_prod  = row[0]
