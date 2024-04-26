@@ -86,21 +86,12 @@ def criar_tabela():
             ML NUMBER NOT NULL)""")
     connection.commit()
 
-# [3] ADICIONAR PRODUTO
-def add_produto():
-    cursor.execute("INSERT INTO produtos VALUES () ")
-    connection.commit()
-
-# [4] DELETAR TABELA
+# [3] DELETAR TABELA
 def deletar_tabela():
     cursor.execute(f"DROP TABLE PRODUTOS")
     connection.commit()
 
-# [5] DELETAR PRODUTO
+# [4] DELETAR PRODUTO
 def deletar_produto():
     cursor.execute("DELETE FROM PRODUTOS")
     connection.commit()
-
-# cursor.execute ("INSERT INTO PRODUTOS VALUES (1, 'Lapis', 'Preto', 1.00, 10, 5, 18, 25)")
-# cursor.execute ("INSERT INTO PRODUTOS VALUES (2, 'Lapis', 'Amarelo', 1.20, 10, 5, 18, 25)")
-# cursor.execute ("INSERT INTO PRODUTOS VALUES (3, 'Lapis', 'Chines', 0.20, 10, 5, 18, 0)")
