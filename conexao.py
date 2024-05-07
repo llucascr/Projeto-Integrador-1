@@ -72,7 +72,11 @@ def mostrar_estoque():
 
         ''')
 
-# [2] CRIAR TABELA  
+# [3].DELETAR PRODUTO
+def deletar_produto():
+    cursor.execute("DELETE FROM PRODUTOS")
+
+# [0].CRIAR TABELA
 def criar_tabela():
     cursor.execute ("""
             CREATE TABLE PRODUTOS (
@@ -86,12 +90,7 @@ def criar_tabela():
             ML NUMBER NOT NULL)""")
     connection.commit()
 
-# [3] DELETAR TABELA
+# [-1] DELETAR TABELA
 def deletar_tabela():
-    cursor.execute(f"DROP TABLE PRODUTOS")
-    connection.commit()
-
-# [4] DELETAR PRODUTO
-def deletar_produto():
-    cursor.execute("DELETE FROM PRODUTOS")
-    connection.commit()
+    cursor.execute("DROP TABLE PRODUTOS")
+    print("TABELA DELETADA!!!")

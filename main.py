@@ -15,28 +15,21 @@ menu = int(input("""
                   SISTEMA DE CADASTRO DE PRODUTO!!!
 =================================================================
 OPÇÕES:
-[1].MOSTRAR PRODUTO/ESTOQUE
-[2].CRIAR TABELA
-[3].CADASTRAR PRODUTO
-[4].DELETAR TABELA
-[5].DELETAR PRODUTOS
-[0].SAIR
+[1].CADASTRAR PRODUTOS
+[2].ALTERAR PRODUTOS
+[3].APAGAR PRODUTOS
+[4].LISTAR PRODUTOS
+[5].SAIR
+[0].CRIAR TABELA
+[-1].DELETAR TABELA 
 =================================================================
                     OPÇÃO: """))
 os.system('cls')
 
-while menu != 0:
+while menu != 5:
 # ---------------------------- ROTINA DE PRODUTOS -----------------------------
-    if menu == 1: #MOSTRAR ESTOQUE
-        print("""
-                        ESTOQUE COMPLETO!!!""")
-        conexao.mostrar_estoque()
-    elif menu == 2: #CRIAR TABELA
-        conexao.criar_tabela()
-        print("""
-                    TABELA CRIADA COM SUCESSO!!!""")
-    elif menu == 3: #CADASTRAR PRODUTO
-        # ---------------------------- CADASTRO DOS PRODUTOS ----------------------------
+    if menu == 1: #CADASTRAR PRODUTOS
+# ---------------------------- CADASTRO DOS PRODUTOS ----------------------------
         cod_prod = int(input('Código do Produto: '))       #CODIGO DO PRODUTO
         nome_prod = str(input('Nome Produto: '))           #NOME DO PRODUTO
         desc_prod = str(input('Descrição do Produto: '))   #DESCRIÇÃO DO PRODUTO
@@ -49,7 +42,7 @@ while menu != 0:
 
         os.system('cls')
 
-        cursor.execute("INSERT INTO produtos VALUES (:1, :2, :3, :4, :5, :6, :7, :8)",(cod_prod, nome_prod, desc_prod, CP, CF, CV, IV, ML))
+        cursor.execute(f"INSERT INTO produtos VALUES ({cod_prod}, '{nome_prod}', '{desc_prod}', {CP}, {CF},{CV}, {IV}, {ML})")
         connection.commit()
         
         conexao.mostrar_estoque()
@@ -57,21 +50,35 @@ while menu != 0:
         print("""
                     PRODUTO CADASTRADO COM SUCESSO!!!
               """)
-    elif menu == 4: #APAGAR TABELA
-        conexao.deletar_tabela()
-    elif menu == 5: #DELETAR TODOS PRODUTOS
+    # elif menu == 2: #ALTERAR PRODUTOS
+        # jhe coloca o codigo seu aqui
+    elif menu == 3: #CADASTRAR PRODUTO
         conexao.deletar_produto()
+    elif menu == 4: #LISTAR PRODUTOS
+        print("""
+                        ESTOQUE COMPLETO!!!""")
+        conexao.mostrar_estoque()
+        # conexao.deletar_tabela()
+    elif menu == 0: #CRIAR TABELA
+        conexao.criar_tabela()
+        print("""
+                    TABELA CRIADA COM SUCESSO!!!""")
+    elif menu == -1:
+        conexao.deletar_tabela()
     
     menu = int(input("""
-
+=================================================================
+                          BEM VINDO AO
+                  SISTEMA DE CADASTRO DE PRODUTO!!!
 =================================================================
 OPÇÕES:
-[1].MOSTRAR PRODUTO/ESTOQUE
-[2].CRIAR TABELA
-[3].CADASTRAR PRODUTO
-[4].DELETAR TABELA
-[5].DELETAR PRODUTOS
-[0].SAIR
+[1].CADASTRAR PRODUTOS
+[2].ALTERAR PRODUTOS
+[3].APAGAR PRODUTOS
+[4].LISTAR PRODUTOS
+[5].SAIR
+[0].CRIAR TABELA
+[-1].DELETAR TABELA 
 =================================================================
                     OPÇÃO: """))
     
