@@ -20,8 +20,6 @@ OPÇÕES:
 [3].APAGAR PRODUTOS
 [4].LISTAR PRODUTOS
 [5].SAIR
-[0].CRIAR TABELA
-[-1].DELETAR TABELA 
 =================================================================
                     OPÇÃO: """))
 os.system('cls')
@@ -50,10 +48,10 @@ while menu != 5:
         print("""
                     PRODUTO CADASTRADO COM SUCESSO!!!
               """)
-    # elif menu == 2: #ALTERAR PRODUTOS
-        # jhe coloca o codigo seu aqui
-    elif menu == 3: #CADASTRAR PRODUTO
-        conexao.deletar_produto()
+    elif menu == 2: #ALTERAR PRODUTOS
+        conexao.alterar_prod()
+    elif menu == 3: #DELETAR PRODUTO
+        conexao.apagar_produto()
     elif menu == 4: #LISTAR PRODUTOS
         print("""
                         ESTOQUE COMPLETO!!!""")
@@ -77,8 +75,6 @@ OPÇÕES:
 [3].APAGAR PRODUTOS
 [4].LISTAR PRODUTOS
 [5].SAIR
-[0].CRIAR TABELA
-[-1].DELETAR TABELA 
 =================================================================
                     OPÇÃO: """))
     

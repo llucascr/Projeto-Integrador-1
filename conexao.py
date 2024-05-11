@@ -72,9 +72,71 @@ def mostrar_estoque():
 
         ''')
 
+# [2].ALTERAR PRODUTO
+def alterar_produto():
+    cod_alterar = int(input('Digite o codigo do produto que deseja alterar: '))
+    menu_alterar = int(input('''                   
+=============================
+¦ O QUE DESEJA ALTERAR:     ¦
+=============================
+¦ [1].NOME                  ¦
+¦ [2].DESCRICAO             ¦
+¦ [3].CUSTO DO PRODUTO      ¦
+¦ [4].MARGEM DE LUCRO       ¦
+¦ [5].CUSTO FIXO            ¦
+¦ [6].COMISSAO DE VENDAS    ¦
+¦ [7].IMPOSTOS              ¦                                                     
+=============================
+        OPÇÃO: '''))   
+        
+    if (menu_alterar == 1):
+        alteracao = str(input('NOVO Nome Produto: '))
+        cursor.execute(f"UPDATE produtos SET nome_prod = '{alteracao}' WHERE cod_prod = {cod_alterar}")
+            
+    elif (menu_alterar == 2):
+        alteracao = str(input('NOVA Descrição do Produto: '))
+        cursor.execute(f"UPDATE produtos SET desc_prod = '{alteracao}' WHERE cod_prod = {cod_alterar}")         
+
+    elif (menu_alterar == 3):
+        alteracao = float(input('NOVO Custo do  Produto: '))
+        cursor.execute(f"UPDATE produtos SET cp = {alteracao} WHERE cod_prod = {cod_alterar}")
+            
+    elif (menu_alterar == 4):
+        alteracao = float(input('NOVA Margem de Lucro sobre a Venda: '))
+        cursor.execute(f"UPDATE produtos SET ml = {alteracao} WHERE cod_prod = {cod_alterar}")
+            
+    elif (menu_alterar == 5):
+        alteracao = float(input('NOVO Custo Fixo/Administrativo(%): '))
+        cursor.execute(f"UPDATE produtos SET cf = {alteracao} WHERE cod_prod = {cod_alterar}")
+
+    elif (menu_alterar == 6):
+        alteracao = float(input('NOVA Comissão de Vendas(%): '))
+        cursor.execute(f"UPDATE produtos SET cv = {alteracao} WHERE cod_prod = {cod_alterar}")
+
+    elif (menu_alterar == 7):
+        alteracao = float(input('NOVO Impostos(%)?: '))
+        cursor.execute(f"UPDATE produtos SET iv = {alteracao} WHERE cod_prod = {cod_alterar}")
+    
+    connection.commit()
+
+    print('''
+        PRODUTO ALTERADO COM SUCESSO!!!''')
+
 # [3].DELETAR PRODUTO
-def deletar_produto():
-    cursor.execute("DELETE FROM PRODUTOS")
+def apagar_produto():
+    cod_apagar = int(input('Digite o codigo do produto que deseja apagar: '))
+    resp_apagar = str(input('CONFIRMAR A EXCLUSÃO DO PRODUTO <S/N>: ')).upper()
+
+    while (resp_apagar == 'N'):
+        cod_apagar = int(input('Digite o codigo do produto que deseja apagar: '))
+        resp_apagar = str(input('CONFIRMAR A EXCLUSÃO DO PRODUTO <S/N>: ')).upper()
+
+    cursor.execute(f'DELETE FROM produtos WHERE cod_prod = {cod_apagar}')
+    connection.commit()
+
+    print('''
+        PRODUTO APAGADO COM SUCESSO!!!''')
+
 
 # [0].CRIAR TABELA
 def criar_tabela():
