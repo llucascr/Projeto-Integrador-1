@@ -72,10 +72,23 @@ def mostrar_estoque():
 
         ''')
 
-# [2].ALTERAR PRODUTO
+# [2a] VERIFICAÇÃO DA ALTERAÇÃO
+def verificacao_alterar(cod_alterar, alteracao, index):
+    resp_alterar = str(input(f'CONFIRMAR A ALTERAÇÃO DO PRODUTO | {cod_alterar} <S/N>: ')).upper()
+    if resp_alterar == "S":
+        cursor.execute(f"UPDATE produtos SET {index} = '{alteracao}' WHERE cod_prod = {cod_alterar}")
+        print(">>> PRODUTO ALTERADO COM SUCESSO!!!")
+    else:
+        print("PRODUTO NÃO ALTERADO")
+
+
+# [2b].ALTERAR PRODUTO
 def alterar_produto():
     cod_alterar = int(input('Digite o codigo do produto que deseja alterar: '))
-    menu_alterar = int(input('''                   
+    cursor.execute(f"SELECT * FROM PRODUTOS WHERE COD_PROD = {cod_alterar}")
+    for row in cursor:
+        print(">>> PRODUTO ENCONTRADO")
+        menu_alterar = int(input('''                   
 =============================
 ¦ O QUE DESEJA ALTERAR:     ¦
 =============================
@@ -90,37 +103,39 @@ def alterar_produto():
         OPÇÃO: '''))   
         
     if (menu_alterar == 1):
+        index = "nome_prod"
         alteracao = str(input('NOVO Nome Produto: '))
-        cursor.execute(f"UPDATE produtos SET nome_prod = '{alteracao}' WHERE cod_prod = {cod_alterar}")
-            
+        verificacao_alterar(cod_alterar, alteracao, index)
     elif (menu_alterar == 2):
+        index = "desc_prod"
         alteracao = str(input('NOVA Descrição do Produto: '))
-        cursor.execute(f"UPDATE produtos SET desc_prod = '{alteracao}' WHERE cod_prod = {cod_alterar}")         
-
+        verificacao_alterar(cod_alterar, alteracao, index)       
     elif (menu_alterar == 3):
+        index = "cp"
         alteracao = float(input('NOVO Custo do  Produto: '))
-        cursor.execute(f"UPDATE produtos SET cp = {alteracao} WHERE cod_prod = {cod_alterar}")
-            
+        verificacao_alterar(cod_alterar, alteracao, index)
     elif (menu_alterar == 4):
+        index = "ml"
         alteracao = float(input('NOVA Margem de Lucro sobre a Venda: '))
-        cursor.execute(f"UPDATE produtos SET ml = {alteracao} WHERE cod_prod = {cod_alterar}")
-            
+        verificacao_alterar(cod_alterar, alteracao, index)            
     elif (menu_alterar == 5):
+        index = "cf"
         alteracao = float(input('NOVO Custo Fixo/Administrativo(%): '))
-        cursor.execute(f"UPDATE produtos SET cf = {alteracao} WHERE cod_prod = {cod_alterar}")
-
+        verificacao_alterar(cod_alterar, alteracao, index)
     elif (menu_alterar == 6):
+        index = "cv"
         alteracao = float(input('NOVA Comissão de Vendas(%): '))
-        cursor.execute(f"UPDATE produtos SET cv = {alteracao} WHERE cod_prod = {cod_alterar}")
+        verificacao_alterar(cod_alterar, alteracao, index)
 
     elif (menu_alterar == 7):
+        index = "iv"
         alteracao = float(input('NOVO Impostos(%)?: '))
-        cursor.execute(f"UPDATE produtos SET iv = {alteracao} WHERE cod_prod = {cod_alterar}")
-    
-    connection.commit()
+        verificacao_alterar(cod_alterar, alteracao, index)
 
-    print('''
-        PRODUTO ALTERADO COM SUCESSO!!!''')
+    if cursor.rowcount == 0:
+        print(">>> PRODUTO NÃO ENCONTRADO")
+ 
+    connection.commit()
 
 # [3].DELETAR PRODUTO
 def apagar_produto():

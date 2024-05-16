@@ -49,7 +49,7 @@ while menu != 5:
                     PRODUTO CADASTRADO COM SUCESSO!!!
               """)
     elif menu == 2: #ALTERAR PRODUTOS
-        conexao.alterar_prod()
+        conexao.alterar_produto()
     elif menu == 3: #DELETAR PRODUTO
         conexao.apagar_produto()
     elif menu == 4: #LISTAR PRODUTOS
