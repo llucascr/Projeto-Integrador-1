@@ -125,18 +125,20 @@ def alterar_produto():
 # [3].DELETAR PRODUTO
 def apagar_produto():
     cod_apagar = int(input('Digite o codigo do produto que deseja apagar: '))
-    resp_apagar = str(input('CONFIRMAR A EXCLUSÃO DO PRODUTO <S/N>: ')).upper()
-
-    while (resp_apagar == 'N'):
-        cod_apagar = int(input('Digite o codigo do produto que deseja apagar: '))
-        resp_apagar = str(input('CONFIRMAR A EXCLUSÃO DO PRODUTO <S/N>: ')).upper()
-
-    cursor.execute(f'DELETE FROM produtos WHERE cod_prod = {cod_apagar}')
-    connection.commit()
-
-    print('''
-        PRODUTO APAGADO COM SUCESSO!!!''')
-
+    cursor.execute(f"SELECT * FROM PRODUTOS WHERE COD_PROD = {cod_apagar}")
+    for row in cursor:
+        print(">>> PRODUTO ENCONTRADO")
+        resp_apagar = str(input(f'CONFIRMAR A EXCLUSÃO DO PRODUTO | {cod_apagar} <S/N>: ')).upper()
+        if resp_apagar == "S":
+            cursor.execute(f'DELETE FROM produtos WHERE cod_prod = {cod_apagar}')
+            connection.commit()
+            print('''
+            PRODUTO APAGADO COM SUCESSO!!!''')
+        else:
+            print("NENHUM PRODUTO APAGADO")
+    if cursor.rowcount == 0:
+        print(">>> PRODUTO NÃO ENCONTRADO")
+        
 
 # [0].CRIAR TABELA
 def criar_tabela():
