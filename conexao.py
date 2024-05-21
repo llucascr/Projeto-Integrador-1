@@ -1,4 +1,5 @@
 # ---------------------------- CONEXÃO AO BANCO DE DADOS -----------------------
+import os
 import oracledb
 # Conexão 
 connection = oracledb.connect(
@@ -8,8 +9,33 @@ connection = oracledb.connect(
 print("Successfully Connected")
 cursor = connection.cursor()
 
-# ---------------------------- COMANDOS BANCO DE DADOS ---------------------------
-# [1] MOSTRAR ESTOQUE
+# [1] CADASTRAR PRODUTO
+def cadastrar_produto():
+    # ---------------------------- CADASTRO DOS PRODUTOS ----------------------------
+        cod_prod = int(input('Código do Produto: '))       #CODIGO DO PRODUTO
+        cursor.execute(f"SELECT * FROM PRODUTOS WHERE COD_PROD = {cod_prod}")
+        nome_prod = str(input('Nome Produto: '))           #NOME DO PRODUTO
+        desc_prod = str(input('Descrição do Produto: '))   #DESCRIÇÃO DO PRODUTO
+
+        CP = float(input('Custo do  Produto: '))              #CUSTO PAGO PELO PRODUTO PARA O FORNECEDOR
+        ML = float(input('Margem de Lucro sobre a Venda: '))  #MARGEM DE LUCRO SOBRE A VENDA DO PRODUTO
+        CF = float(input('Custo Fixo/Administrativo(%): '))   #CUSTO FIXO (ESPAÇO FÍSICO, DESPESAS, FUNCIONÁRIOS...)
+        CV = float(input('Comissão de Vendas(%): '))          #COMISSÃO SOBRE A VENDA DO PRODUTO
+        IV = float(input('Impostos(%): '))                    #IMPOSTOS SOBRE A VENDA DO PRODUTO
+
+        os.system('cls')
+
+        cursor.execute(f"INSERT INTO produtos VALUES ({cod_prod}, '{nome_prod}', '{desc_prod}', {CP}, {CF},{CV}, {IV}, {ML})")
+        connection.commit()
+        
+        mostrar_estoque()
+
+        print("""
+                    PRODUTO CADASTRADO COM SUCESSO!!!
+              """)
+
+
+# [2] MOSTRAR ESTOQUE
 def mostrar_estoque():
     for row in cursor.execute("SELECT * FROM PRODUTOS"):
         connection.commit()
@@ -102,40 +128,38 @@ def alterar_produto():
 =============================
         OPÇÃO: '''))   
         
-    if (menu_alterar == 1):
-        index = "nome_prod"
-        alteracao = str(input('NOVO Nome Produto: '))
-        verificacao_alterar(cod_alterar, alteracao, index)
-    elif (menu_alterar == 2):
-        index = "desc_prod"
-        alteracao = str(input('NOVA Descrição do Produto: '))
-        verificacao_alterar(cod_alterar, alteracao, index)       
-    elif (menu_alterar == 3):
-        index = "cp"
-        alteracao = float(input('NOVO Custo do  Produto: '))
-        verificacao_alterar(cod_alterar, alteracao, index)
-    elif (menu_alterar == 4):
-        index = "ml"
-        alteracao = float(input('NOVA Margem de Lucro sobre a Venda: '))
-        verificacao_alterar(cod_alterar, alteracao, index)            
-    elif (menu_alterar == 5):
-        index = "cf"
-        alteracao = float(input('NOVO Custo Fixo/Administrativo(%): '))
-        verificacao_alterar(cod_alterar, alteracao, index)
-    elif (menu_alterar == 6):
-        index = "cv"
-        alteracao = float(input('NOVA Comissão de Vendas(%): '))
-        verificacao_alterar(cod_alterar, alteracao, index)
+        if (menu_alterar == 1):
+            index = "nome_prod"
+            alteracao = str(input('NOVO Nome Produto: '))
+            verificacao_alterar(cod_alterar, alteracao, index)
+        elif (menu_alterar == 2):
+            index = "desc_prod"
+            alteracao = str(input('NOVA Descrição do Produto: '))
+            verificacao_alterar(cod_alterar, alteracao, index)       
+        elif (menu_alterar == 3):
+            index = "cp"
+            alteracao = float(input('NOVO Custo do  Produto: '))
+            verificacao_alterar(cod_alterar, alteracao, index)
+        elif (menu_alterar == 4):
+            index = "ml"
+            alteracao = float(input('NOVA Margem de Lucro sobre a Venda: '))
+            verificacao_alterar(cod_alterar, alteracao, index)            
+        elif (menu_alterar == 5):
+            index = "cf"
+            alteracao = float(input('NOVO Custo Fixo/Administrativo(%): '))
+            verificacao_alterar(cod_alterar, alteracao, index)
+        elif (menu_alterar == 6):
+            index = "cv"
+            alteracao = float(input('NOVA Comissão de Vendas(%): '))
+            verificacao_alterar(cod_alterar, alteracao, index)
 
-    elif (menu_alterar == 7):
-        index = "iv"
-        alteracao = float(input('NOVO Impostos(%)?: '))
-        verificacao_alterar(cod_alterar, alteracao, index)
+        elif (menu_alterar == 7):
+            index = "iv"
+            alteracao = float(input('NOVO Impostos(%)?: '))
+            verificacao_alterar(cod_alterar, alteracao, index)
 
     if cursor.rowcount == 0:
         print(">>> PRODUTO NÃO ENCONTRADO")
- 
-    connection.commit()
 
 # [3].DELETAR PRODUTO
 def apagar_produto():
