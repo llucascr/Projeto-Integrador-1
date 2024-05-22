@@ -96,7 +96,7 @@ def cadastrar_produto():
             print("CÓDIGO JA EXISTE")
         if (cursor.rowcount == 0):
             nome_prod = str(input('Nome Produto: '))           #NOME DO PRODUTO
-            desc_prod = str(input('Descrição do Produto: '))   #DESCRIÇÃO DO PRODUTO
+            desc_prod = str(input('Descrição do Produto: ')).upper()   #DESCRIÇÃO DO PRODUTO
 
             CP = float(input('Custo do  Produto: '))              #CUSTO PAGO PELO PRODUTO PARA O FORNECEDOR
             ML = float(input('Margem de Lucro sobre a Venda: '))  #MARGEM DE LUCRO SOBRE A VENDA DO PRODUTO
