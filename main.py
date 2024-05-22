@@ -33,14 +33,12 @@ while menu != 5:
     elif menu == 3: #DELETAR PRODUTO
         conexao.apagar_produto()
     elif menu == 4: #LISTAR PRODUTOS
-        print("""
-                        ESTOQUE COMPLETO!!!""")
         conexao.mostrar_estoque()
-        # conexao.deletar_tabela()
+    #
+    #
+    #
     elif menu == 0: #CRIAR TABELA
         conexao.criar_tabela()
-        print("""
-                    TABELA CRIADA COM SUCESSO!!!""")
     elif menu == -1:
         conexao.deletar_tabela()
     
