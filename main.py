@@ -9,23 +9,6 @@ print("Successfully Connected")
 cursor = connection.cursor()
 os.system('cls')
 # ---------------------------- MENU DE COMANDOS ------------------------------
-
-def mostrar_estoque():
-    cursor.execute("SELECT * FROM PRODUTOS")
-    for row in cursor:
-        #
-        cod_prod = row[0]
-        nome_prod = row[1]
-        desc_prod = row[2]
-        CP = row[3]
-        CF = row[4]
-        CV = row[5]
-        IV = row[6]
-        ML = row[7]
-        #
-        desc_prod = conexao.hill_criptografia(desc_prod, conexao.chave_inversa)
-        conexao.calculo_print_tabela(cod_prod, nome_prod, desc_prod, CP, CF, CV, IV, ML)
-
 menu = int(input("""
 =================================================================
                           BEM VINDO AO
@@ -55,7 +38,6 @@ while menu != 5:
         conexao.criar_tabela()
     elif menu == -1:
         conexao.deletar_tabela()
-    
     menu = int(input("""
 =================================================================
                           BEM VINDO AO

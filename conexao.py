@@ -137,84 +137,93 @@ def verificacao_alterar(cod_alterar, alteracao, index):
     resp_alterar = str(input(f'CONFIRMAR A ALTERAÇÃO DO PRODUTO | {cod_alterar} <S/N>: ')).upper()
     if resp_alterar == "S":
         cursor.execute(f"UPDATE produtos SET {index} = '{alteracao}' WHERE cod_prod = {cod_alterar}")
-        connection.commit
+        connection.commit()
         print(">>> PRODUTO ALTERADO COM SUCESSO!!!")
     else:
         print("PRODUTO NÃO ALTERADO")
 
 # [2b].ALTERAR PRODUTO
 def alterar_produto():
-    cod_alterar = int(input('Digite o codigo do produto que deseja alterar: '))
-    cursor.execute(f"SELECT * FROM PRODUTOS WHERE COD_PROD = {cod_alterar}")
-    for row in cursor:
-        print(">>> PRODUTO ENCONTRADO")
-        menu_alterar = int(input('''                   
-=============================
-¦ O QUE DESEJA ALTERAR:     ¦
-=============================
-¦ [1].NOME                  ¦
-¦ [2].DESCRICAO             ¦
-¦ [3].CUSTO DO PRODUTO      ¦
-¦ [4].MARGEM DE LUCRO       ¦
-¦ [5].CUSTO FIXO            ¦
-¦ [6].COMISSAO DE VENDAS    ¦
-¦ [7].IMPOSTOS              ¦                                                     
-=============================
-        OPÇÃO: '''))   
-        
-        if (menu_alterar == 1):
-            index = "nome_prod"
-            alteracao = str(input('NOVO Nome Produto: '))
-            verificacao_alterar(cod_alterar, alteracao, index)
-        elif (menu_alterar == 2):
-            index = "desc_prod"
-            alteracao = str(input('NOVA Descrição do Produto: '))
-            alteracao = verificacao_para_criptografia(alteracao)
-            alteracao = hill_criptografia(alteracao, chave)
-            verificacao_alterar(cod_alterar, alteracao, index)       
-        elif (menu_alterar == 3):
-            index = "cp"
-            alteracao = float(input('NOVO Custo do  Produto: '))
-            verificacao_alterar(cod_alterar, alteracao, index)
-        elif (menu_alterar == 4):
-            index = "ml"
-            alteracao = float(input('NOVA Margem de Lucro sobre a Venda: '))
-            verificacao_alterar(cod_alterar, alteracao, index)            
-        elif (menu_alterar == 5):
-            index = "cf"
-            alteracao = float(input('NOVO Custo Fixo/Administrativo(%): '))
-            verificacao_alterar(cod_alterar, alteracao, index)
-        elif (menu_alterar == 6):
-            index = "cv"
-            alteracao = float(input('NOVA Comissão de Vendas(%): '))
-            verificacao_alterar(cod_alterar, alteracao, index)
+    try:
+        cod_alterar = int(input('Digite o código do produto que deseja alterar: '))
+        cursor.execute("SELECT * FROM PRODUTOS WHERE COD_PROD = :1", (cod_alterar,))
+        produto = cursor.fetchone()
 
-        elif (menu_alterar == 7):
-            index = "iv"
-            alteracao = float(input('NOVO Impostos(%)?: '))
-            verificacao_alterar(cod_alterar, alteracao, index)
+        if produto is None:
+            print(">>> PRODUTO NÃO ENCONTRADO")
+        else:
+            print(">>> PRODUTO ENCONTRADO")
+            menu_alterar = int(input('''                   
+    =============================
+    ¦ O QUE DESEJA ALTERAR:     ¦
+    =============================
+    ¦ [1].NOME                  ¦
+    ¦ [2].DESCRICAO             ¦
+    ¦ [3].CUSTO DO PRODUTO      ¦
+    ¦ [4].MARGEM DE LUCRO       ¦
+    ¦ [5].CUSTO FIXO            ¦
+    ¦ [6].COMISSAO DE VENDAS    ¦
+    ¦ [7].IMPOSTOS              ¦                                                     
+    =============================
+            OPÇÃO: '''))   
+            
+            if (menu_alterar == 1):
+                index = "nome_prod"
+                alteracao = str(input('NOVO Nome Produto: '))
+                verificacao_alterar(cod_alterar, alteracao, index)
+            elif (menu_alterar == 2):
+                index = "desc_prod"
+                alteracao = str(input('NOVA Descrição do Produto: ')).upper()
+                alteracao = verificacao_para_criptografia(alteracao)
+                alteracao = hill_criptografia(alteracao, chave)
+                verificacao_alterar(cod_alterar, alteracao, index)       
+            elif (menu_alterar == 3):
+                index = "cp"
+                alteracao = float(input('NOVO Custo do  Produto: '))
+                verificacao_alterar(cod_alterar, alteracao, index)
+            elif (menu_alterar == 4):
+                index = "ml"
+                alteracao = float(input('NOVA Margem de Lucro sobre a Venda: '))
+                verificacao_alterar(cod_alterar, alteracao, index)            
+            elif (menu_alterar == 5):
+                index = "cf"
+                alteracao = float(input('NOVO Custo Fixo/Administrativo(%): '))
+                verificacao_alterar(cod_alterar, alteracao, index)
+            elif (menu_alterar == 6):
+                index = "cv"
+                alteracao = float(input('NOVA Comissão de Vendas(%): '))
+                verificacao_alterar(cod_alterar, alteracao, index)
+            elif (menu_alterar == 7):
+                index = "iv"
+                alteracao = float(input('NOVO Impostos(%)?: '))
+                verificacao_alterar(cod_alterar, alteracao, index)
+    except oracledb.Error as error:
+        print("Erro ao alterar produto:", error)
 
-    if cursor.rowcount == 0:
-        print(">>> PRODUTO NÃO ENCONTRADO")
+
         
 # [3].DELETAR PRODUTO
 def apagar_produto():
-    cod_apagar = int(input('Digite o codigo do produto que deseja apagar: '))
+    try:
+        cod_apagar = int(input('Digite o codigo do produto que deseja apagar: '))
 
-    cursor.execute(f"SELECT * FROM PRODUTOS WHERE COD_PROD = {cod_apagar}")
-    for row in cursor:
-        print(">>> PRODUTO ENCONTRADO")
-        
-        resp_apagar = str(input(f'CONFIRMAR A EXCLUSÃO DO PRODUTO | {cod_apagar} <S/N>: ')).upper()
-        if resp_apagar == "S":
-            cursor.execute(f'DELETE FROM produtos WHERE cod_prod = {cod_apagar}')
-            connection.commit()
-            print('''
-            PRODUTO APAGADO COM SUCESSO!!!''')
+        cursor.execute("SELECT * FROM PRODUTOS WHERE COD_PROD = :1", (cod_apagar,))
+        produto = cursor.fetchone()
+        if produto is None:
+            print(">>> PRODUTO NÃO ENCONTRADO")
         else:
-            print("NENHUM PRODUTO APAGADO")
-    if cursor.rowcount == 0:
-        print(">>> PRODUTO NÃO ENCONTRADO")
+            print(">>> PRODUTO ENCONTRADO")
+            
+            resp_apagar = str(input(f'CONFIRMAR A EXCLUSÃO DO PRODUTO | {cod_apagar} <S/N>: ')).upper()
+            if resp_apagar == "S":
+                cursor.execute(f'DELETE FROM produtos WHERE cod_prod = {cod_apagar}')
+                connection.commit()
+                print('''
+                PRODUTO APAGADO COM SUCESSO!!!''')
+            else:
+                print("NENHUM PRODUTO APAGADO")
+    except oracledb.Error as error:
+        print("Erro ao apagar produto:", error)
 
 
 
